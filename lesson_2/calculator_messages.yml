@@ -13,3 +13,6 @@ en:
     => ERROR: not a valid expression, please follow this format:
         e.g(1 + 5 or 2 / 5)
   solution: "=> Solution:"
+  interrupt_message: |+
+
+    Thanks for using this Simple Calculator!!

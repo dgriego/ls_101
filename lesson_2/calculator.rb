@@ -3,7 +3,7 @@
 #
 
 require 'yaml'
-MESSAGES = YAML.load_file('101/lesson_2/calculator_messages.yml')
+MESSAGES = YAML.load_file('calculator_messages.yml')
 LANGUAGE = 'en'
 
 def messages(message, lang='en')
@@ -35,13 +35,17 @@ def calculate(expression)
 end
 
 puts messages('welcome', LANGUAGE)
-loop do
-  puts messages('enter_expression', LANGUAGE)
-  expression = gets.chomp
+begin
+  loop do
+    puts messages('enter_expression', LANGUAGE)
+    expression = gets.chomp
 
-  if valid_expression?(expression)
-    calculate(expression)
-  else
-    puts messages('error_message', LANGUAGE)
+    if valid_expression?(expression)
+      calculate(expression)
+    else
+      puts messages('error_message', LANGUAGE)
+    end
   end
+rescue Interrupt
+  puts messages('interrupt_message', LANGUAGE)
 end
