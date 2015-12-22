@@ -1,0 +1,15 @@
+en:
+  welcome: |+
+    => Simple Calculator Rules:
+     * Currently only supports calculations on two digits
+     * Please include spaces before and after operand
+     * Integers can contain decimals
+     * valid operators: +, /, -, *
+     * Press [Ctrl + c] anytime to exit
+  enter_expression: |+
+
+    Please Enter an expression: e.g(1 + 2 or 2.3 / 4.5):
+  error_message: |+
+    => ERROR: not a valid expression, please follow this format:
+        e.g(1 + 5 or 2 / 5)
+  solution: "=> Solution:"
