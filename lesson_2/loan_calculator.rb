@@ -21,7 +21,7 @@ loop do
 
   amount = nil
   loop do
-    puts "\n"
+    puts
     puts 'Please enter the amount of the Loan:'.bold
     amount = gets.chomp.to_i
 
@@ -35,7 +35,7 @@ loop do
 
   interest_rate = nil
   loop do
-    puts "\n"
+    puts
     puts 'Please enter the Annual Interest Rate:'.bold
     puts '(Example: 5 for 5% or 2.5 for 2.5%)'.colorize(:light_black)
     interest_rate = gets.chomp.to_f
@@ -50,7 +50,7 @@ loop do
 
   years = nil
   loop do
-    puts "\n"
+    puts
     puts 'Please enter the length of the loan (in years):'.bold
     years = gets.chomp.to_i
 
@@ -66,15 +66,16 @@ loop do
   months = years * 12
 
   monthly_payment = calculate_monthly_payment(amount, monthly_rate, months)
-  puts "\n"
+  puts
   print 'Monthly Payment: '.bold
   print "$#{format('%#.2f', monthly_payment)}".colorize(:light_yellow)
 
-  puts "\n"
+  puts
   print 'Duration: '.bold
   print "#{months} months".colorize(:light_yellow)
 
-  puts "\n\n"
+  puts
+  puts
   puts "Would you like to perform another calculation?".colorize(:cyan)
   answer = Kernel.gets().chomp()
 
