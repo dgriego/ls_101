@@ -77,7 +77,7 @@ loop do
   puts
   puts
   puts "Would you like to perform another calculation?".colorize(:cyan)
-  answer = Kernel.gets().chomp()
+  answer = gets.chomp
 
   break unless answer.downcase().start_with?('y')
 end
