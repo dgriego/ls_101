@@ -1,0 +1,22 @@
+welcome: |+
+  Welcome to Rock, Paper, Scissors, Lizard, Spock!
+  you have begun a battle with machine!
+rules: |+
+
+  ------------Rules-------------
+  Each win counts as a point
+  Whoever reaches 5 points wins
+winning_combinations: |+
+
+  -----Winning Combinations-----
+  -- Paper covers Rock!
+  -- Rock smashes Scissors!
+  -- Scissors cuts Paper!
+  -- Rock crushes lizard!
+  -- Spock smashes Scissors!
+  -- Scissors decapitates Lizard!
+  -- Lizard eats Paper!
+  -- Paper disproves Spock!
+  -- Spock vaporizes Rock!
+  -- Lizard poisons Spock!
+pick_one: "Please pick one: Rock(r) Paper(p) Scissors(s) Lizard(l) Spock(sp):"
