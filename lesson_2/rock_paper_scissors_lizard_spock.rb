@@ -2,7 +2,6 @@
 # Rock Paper Scissors
 #
 
-require 'pry'
 CHOICES = %w(r p s l sp)
 
 loop do
