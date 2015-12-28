@@ -1,5 +1,5 @@
 #
-# Rock Paper Scissors
+# Rock Paper Scissors Lizard Spock
 #
 
 CHOICES = %w(r p s l sp)
