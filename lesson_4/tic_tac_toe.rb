@@ -1,5 +1,7 @@
 # Tic Tac Toe
 
+require 'pry'
+
 def board_configuration
   choices = {}
 
@@ -9,20 +11,18 @@ def board_configuration
 end
 
 def render_board(choice)
-  system('clear')
-
-  puts " #{choice[1]} | #{choice[2]} | #{choice[3]} "
-  puts "-----------"
-  puts " #{choice[4]} | #{choice[5]} | #{choice[6]} "
-  puts "-----------"
-  puts " #{choice[7]} | #{choice[8]} | #{choice[9]} "
+  puts " #{choice[1]} | #{choice[2]} | #{choice[3]} ".center(65)
+  puts "-----------".center(65)
+  puts " #{choice[4]} | #{choice[5]} | #{choice[6]} ".center(65)
+  puts "-----------".center(65)
+  puts " #{choice[7]} | #{choice[8]} | #{choice[9]} ".center(65)
 end
 
 def print_victory_message(choice)
   if choice == 'X'
-    puts "Player Wins!"
+    puts "=> PLAYER WINS!"
   else
-    puts "Computer Wins!"
+    puts "=> COMPUTER WINS!"
   end
 end
 
@@ -66,21 +66,33 @@ def computer_makes_choice(choices)
   choices[computer_choice] = "O"
 end
 
+def joinor(choices_array, delimiter, word='or ') # => 1, 2, 3 or 4
+  choices_array[choices_array.last - 1] = choices_array.last.to_s.prepend(word)
+
+  "#{choices_array.join(delimiter)}"
+end
+
 loop do
   choices = board_configuration
-  render_board(choices)
 
   loop do
-    puts "Pick a square (1 - 9):"
+    system('clear')
+
+    puts "Choose a position to place a piece: #{joinor(choices.keys, ', ')}"
+    puts
+
+    render_board(choices)
     player_makes_choice(choices)
     computer_makes_choice(choices)
     render_board(choices)
+
     winner = check_for_win(choices)
     print_victory_message(winner) if winner
+
     break if winner || empty_positions(choices).empty?
   end
 
-  puts "Would you like to play again?(y/n)"
+  puts "=> Would you like to play again?(y/n)"
   break if gets.chomp.downcase.start_with?('n')
 end
 
