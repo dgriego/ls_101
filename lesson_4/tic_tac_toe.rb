@@ -1,7 +1,5 @@
 # Tic Tac Toe
 
-require 'pry'
-
 def board_configuration
   choices = {}
 
@@ -11,18 +9,20 @@ def board_configuration
 end
 
 def render_board(choice)
-  puts " #{choice[1]} | #{choice[2]} | #{choice[3]} ".center(65)
-  puts "-----------".center(65)
-  puts " #{choice[4]} | #{choice[5]} | #{choice[6]} ".center(65)
-  puts "-----------".center(65)
-  puts " #{choice[7]} | #{choice[8]} | #{choice[9]} ".center(65)
+  puts " #{choice[1]} | #{choice[2]} | #{choice[3]}"
+  puts "-----------"
+  puts " #{choice[4]} | #{choice[5]} | #{choice[6]}"
+  puts "-----------"
+  puts " #{choice[7]} | #{choice[8]} | #{choice[9]}"
 end
 
-def print_victory_message(choice)
+def print_round_victory_message(choice)
   if choice == 'X'
-    puts "=> PLAYER WINS!"
+    puts "=> PLAYER WINS THE ROUND!"
+  elsif choice == 'O'
+    puts "=> COMPUTER WINS THE ROUND!"
   else
-    puts "=> COMPUTER WINS!"
+    puts "=> THIS ROUND IS A TIE!"
   end
 end
 
@@ -30,7 +30,7 @@ def choice_taken?(choice, choices)
   choices[choice.to_i] != " "
 end
 
-def check_for_win(c) # => returns 'X' or 'O'
+def check_for_round_win(c) # => returns 'X' or 'O'
   winner = nil
   winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # horizontals
                   [[1, 4, 7], [2, 5, 8], [3, 6, 7]] + # verticals
@@ -72,27 +72,57 @@ def joinor(choices_array, delimiter, word='or ') # => 1, 2, 3 or 4
   "#{choices_array.join(delimiter)}"
 end
 
+player_score = 0
+computer_score = 0
+
 loop do
   choices = board_configuration
 
   loop do
     system('clear')
 
-    puts "Choose a position to place a piece: #{joinor(choices.keys, ', ')}"
+    puts "Welcome to Tic Tac Toe!"
+    puts "First to win 5 games wins"
+    puts "Choose a position to place a piece #{joinor(choices.keys, ', ')}:"
     puts
 
     render_board(choices)
+    puts
+    puts "Player Score: #{player_score} | " \
+         "Computer Score: #{computer_score}"
+
+    # Player Turn
     player_makes_choice(choices)
-    computer_makes_choice(choices)
-    render_board(choices)
+    round_winner = check_for_round_win(choices)
 
-    winner = check_for_win(choices)
-    print_victory_message(winner) if winner
+    # Computer Turn
+    if !round_winner
+      computer_makes_choice(choices)
+      render_board(choices)
+      round_winner = check_for_round_win(choices)
+    end
 
-    break if winner || empty_positions(choices).empty?
+    if round_winner
+      print_round_victory_message(round_winner)
+      sleep(1)
+    end
+
+    # Add score
+    player_score += 1 if round_winner == 'X'
+    computer_score += 1 if round_winner == 'O'
+
+    break if round_winner || empty_positions(choices).empty?
   end
 
-  puts "=> Would you like to play again?(y/n)"
-  break if gets.chomp.downcase.start_with?('n')
-end
+  if player_score == 5 || computer_score == 5
+    puts "You Have Won 5 Games! You Win!" if player_score == 5
+    puts "Computer Has Won 5 Games! You Lose!" if computer_score == 5
+    puts "=> Would you like to play again?(y/n)"
+    play_again = gets.chomp.downcase.start_with?('n')
 
+    player_score = 0
+    computer_score = 0
+  end
+
+  break if play_again
+end
