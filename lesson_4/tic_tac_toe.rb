@@ -26,8 +26,8 @@ def print_victory_message(choice)
   end
 end
 
-def choice_not_taken?(choice, choices)
-  choices[choice.to_i] == " "
+def choice_taken?(choice, choices)
+  choices[choice.to_i] != " "
 end
 
 def check_for_win(c) # => returns 'X' or 'O'
@@ -54,7 +54,7 @@ def player_makes_choice(choices)
 
   loop do
     player_choice = gets.chomp
-    break if choice_not_taken?(player_choice, choices)
+    break if !choice_taken?(player_choice, choices)
   end
 
   choices[player_choice.to_i] = "X"
@@ -66,14 +66,21 @@ def computer_makes_choice(choices)
   choices[computer_choice] = "O"
 end
 
-choices = board_configuration
-render_board(choices)
 loop do
-  puts "Pick a square (1 - 9):"
-  player_makes_choice(choices)
-  computer_makes_choice(choices)
+  choices = board_configuration
   render_board(choices)
-  winner = check_for_win(choices)
-  print_victory_message(winner) if winner
-  break if winner || empty_positions(choices).empty?
+
+  loop do
+    puts "Pick a square (1 - 9):"
+    player_makes_choice(choices)
+    computer_makes_choice(choices)
+    render_board(choices)
+    winner = check_for_win(choices)
+    print_victory_message(winner) if winner
+    break if winner || empty_positions(choices).empty?
+  end
+
+  puts "Would you like to play again?(y/n)"
+  break if gets.chomp.downcase.start_with?('n')
 end
+
