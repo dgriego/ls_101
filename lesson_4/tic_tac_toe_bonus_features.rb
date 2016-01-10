@@ -1,5 +1,11 @@
 # Tic Tac Toe Bonus Features
 
+COMPUTER_MARKER = 'O'
+PLAYER_MARKER = 'X'
+WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # horizontals
+                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # verticals
+                [[1, 5, 9], [3, 5, 7]]              # diagonals
+
 def render_board(choice)
   puts " #{choice[1]} | #{choice[2]} | #{choice[3]}"
   puts "-----------"
@@ -9,26 +15,23 @@ def render_board(choice)
 end
 
 def print_round_victory_message(choice)
-  if choice == 'X'
+  if choice == PLAYER_MARKER
     puts "=> PLAYER WINS THE ROUND!"
-  elsif choice == 'O'
+  elsif choice == COMPUTER_MARKER
     puts "=> COMPUTER WINS THE ROUND!"
   else
-    puts "=> THIS ROUND IS A TIE!"
+    puts '=> IT\'S A TIE!'
   end
 end
 
 def choice_taken?(choice, choices)
-  choices[choice.to_i] != " "
+  choices[choice.to_i] != ' '
 end
 
-def check_for_win(choices) # => returns 'X', 'O' or nil
+def check_for_round_win(choices) # => returns 'X', 'O' or nil
   winner = nil
-  winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # horizontals
-                  [[1, 4, 7], [2, 5, 8], [3, 6, 7]] + # verticals
-                  [[1, 5, 9], [3, 5, 7]]              # diagonals
 
-  winning_lines.each do |line|
+  WINNING_LINES.each do |line|
     if choices[line[0]] == choices[line[1]] &&
        choices[line[1]] == choices[line[2]] && choices[line[0]] != ' '
       winner = choices[line[0]]
@@ -38,8 +41,19 @@ def check_for_win(choices) # => returns 'X', 'O' or nil
   winner
 end
 
+def find_at_risk_square(line, choices, marker)
+  # line = [1, 2, 3]
+  position = nil
+
+  if line.count { |index| choices[index] == marker } == 2
+    position = line.find { |index| choices[index] == ' ' }
+  end
+
+  position
+end
+
 def empty_positions(choices)
-  choices.select { |_, v| v == ' ' }.keys
+  choices.select { |_, index| index == ' ' }.keys
 end
 
 def player_makes_choice(choices)
@@ -50,13 +64,32 @@ def player_makes_choice(choices)
     break unless choice_taken?(player_choice, choices)
   end
 
-  choices[player_choice.to_i] = "X"
+  choices[player_choice.to_i] = PLAYER_MARKER
 end
 
 def computer_makes_choice(choices)
-  computer_choice = empty_positions(choices).sample
+  index = nil
 
-  choices[computer_choice] = "O"
+  # Defense
+  WINNING_LINES.each do |line|
+    index = find_at_risk_square(line, choices, COMPUTER_MARKER)
+    break if index
+  end
+
+  # Offense
+  unless index
+    WINNING_LINES.each do |line|
+      index = find_at_risk_square(line, choices, PLAYER_MARKER)
+      break if index
+    end
+  end
+
+  # Random Choice
+  unless index
+    index = empty_positions(choices).sample
+  end
+
+  choices[index] = COMPUTER_MARKER
 end
 
 def joinor(choices_array, delimiter, word='or ') # => 1, 2, 3 or 4
@@ -75,8 +108,8 @@ loop do
   loop do
     system('clear')
 
-    puts "Welcome to Tic Tac Toe!"
-    puts "First to win 5 games wins"
+    puts 'Welcome to Tic Tac Toe!'
+    puts 'First to win 5 games wins'
     puts "Choose a position to place a piece #{joinor(choices.keys, ', ')}:"
     puts
 
@@ -92,26 +125,29 @@ loop do
     # Computer Turn
     unless round_winner
       computer_makes_choice(choices)
-      render_board(choices)
       round_winner = check_for_round_win(choices)
     end
 
-    if round_winner
+    if round_winner || empty_positions(choices).empty?
+      system('clear')
+      puts
+      render_board(choices)
+      puts
       print_round_victory_message(round_winner)
       sleep(1)
     end
 
     # Add score
-    player_score += 1 if round_winner == 'X'
-    computer_score += 1 if round_winner == 'O'
+    player_score += 1 if round_winner == PLAYER_MARKER
+    computer_score += 1 if round_winner == COMPUTER_MARKER
 
     break if round_winner || empty_positions(choices).empty?
   end
 
   if player_score == 5 || computer_score == 5
-    puts "You Have Won 5 Games! You Win!" if player_score == 5
-    puts "Computer Has Won 5 Games! You Lose!" if computer_score == 5
-    puts "=> Would you like to play again?(y/n)"
+    puts 'You Have Won 5 Games! You Win!' if player_score == 5
+    puts 'Computer Has Won 5 Games! You Lose!' if computer_score == 5
+    puts '=> Would you like to play again?(y/n)'
     play_again = gets.chomp.downcase.start_with?('n')
 
     player_score = 0
