@@ -1,15 +1,5 @@
 # Tic Tac Toe
 
-require 'pry'
-
-def board_configuration
-  choices = {}
-
-  (1..9).each { |i| choices[i] = " " }
-
-  choices
-end
-
 def render_board(choice)
   puts " #{choice[1]} | #{choice[2]} | #{choice[3]} "
   puts "-----------"
@@ -32,15 +22,16 @@ def choice_taken?(choice, choices)
   choices[choice.to_i] != " "
 end
 
-def check_for_win(c) # => returns 'X' or 'O' or nil
+def check_for_win(choices) # => returns 'X', 'O' or nil
   winner = nil
   winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # horizontals
                   [[1, 4, 7], [2, 5, 8], [3, 6, 7]] + # verticals
                   [[1, 5, 9], [3, 5, 7]]              # diagonals
 
   winning_lines.each do |line|
-    if c[line[0]] == c[line[1]] && c[line[1]] == c[line[2]] && c[line[0]] != ' '
-      winner = c[line[0]]
+    if choices[line[0]] == choices[line[1]] &&
+       choices[line[1]] == choices[line[2]] && choices[line[0]] != ' '
+      winner = choices[line[0]]
     end
   end
 
@@ -56,7 +47,7 @@ def player_makes_choice(choices)
 
   loop do
     player_choice = gets.chomp
-    break if !choice_taken?(player_choice, choices)
+    break unless choice_taken?(player_choice, choices)
   end
 
   choices[player_choice.to_i] = "X"
@@ -75,14 +66,16 @@ def joinor(choices_array, delimiter, word='or ') # => 1, 2, 3 or 4
 end
 
 loop do
-  choices = board_configuration
+  # setup choices Hash
+  choices = {}
+  (1..9).each { |i| choices[i] = " " }
 
   loop do
     system('clear')
 
     puts "Welcome to Tic Tac Toe!"
     puts "First to win 5 games wins"
-    puts "Choose a position to place a piece #{joinor(choices.keys, ', ')}:"
+    puts "Pick a Sqaure (1 - 9):"
     puts
 
     render_board(choices)
@@ -92,9 +85,11 @@ loop do
     winner = check_for_win(choices)
 
     # Computer Turn
-    computer_makes_choice(choices)
-    render_board(choices)
-    winner = check_for_win(choices)
+    unless winner
+      computer_makes_choice(choices)
+      render_board(choices)
+      winner = check_for_win(choices)
+    end
 
     print_victory_message(winner) if winner
     break if winner || empty_positions(choices).empty?
@@ -103,4 +98,3 @@ loop do
   puts "=> Would you like to play again?(y/n)"
   break if gets.chomp.downcase.start_with?('n')
 end
-
