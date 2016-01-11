@@ -98,7 +98,7 @@ end
 def joinor(choices_array, delimiter, word='or ') # => 1, 2, 3 or 4
   choices_array[choices_array.last - 1] = choices_array.last.to_s.prepend(word)
 
-  "#{choices_array.join(delimiter)}"
+  choices_array.join(delimiter)
 end
 
 def place_piece!(choices, current_player)
