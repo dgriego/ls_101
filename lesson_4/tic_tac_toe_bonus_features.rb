@@ -149,8 +149,9 @@ loop do
     place_piece!(choices, current_player)
     current_player = alternate_player(current_player)
     round_winner = check_for_round_win(choices)
+    empty_positions = empty_positions(choices).empty?
 
-    if round_winner || empty_positions(choices).empty?
+    if round_winner || empty_positions
       system('clear')
       puts
       render_board(choices)
@@ -163,7 +164,7 @@ loop do
     player_score += 1 if round_winner == PLAYER_MARKER
     computer_score += 1 if round_winner == COMPUTER_MARKER
 
-    break if round_winner || empty_positions(choices).empty?
+    break if round_winner || empty_positions
   end
 
   if player_score == 5 || computer_score == 5
