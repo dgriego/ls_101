@@ -1,5 +1,5 @@
 # Twenty One
-require 'pry'
+
 TWENTY_ONE = 21
 
 def initialize_deck
