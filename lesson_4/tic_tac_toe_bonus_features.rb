@@ -42,7 +42,6 @@ def check_for_round_win(choices) # => returns 'X', 'O' or nil
 end
 
 def find_at_risk_square(line, choices, marker)
-  # line = [1, 2, 3]
   position = nil
 
   if line.count { |index| choices[index] == marker } == 2
@@ -67,22 +66,26 @@ def player_makes_choice(choices)
   choices[player_choice.to_i] = PLAYER_MARKER
 end
 
+def computers_strategic_choice(choices, strategy)
+  index = nil
+  marker = strategy == 'defense' ? COMPUTER_MARKER : PLAYER_MARKER
+
+  WINNING_LINES.each do |line|
+    index = find_at_risk_square(line, choices, marker)
+    break if index
+  end
+
+  index
+end
+
 def computer_makes_choice(choices)
   index = nil
 
   # Defense
-  WINNING_LINES.each do |line|
-    index = find_at_risk_square(line, choices, COMPUTER_MARKER)
-    break if index
-  end
+  index = computers_strategic_choice(choices, 'defense')
 
   # Offense
-  unless index
-    WINNING_LINES.each do |line|
-      index = find_at_risk_square(line, choices, PLAYER_MARKER)
-      break if index
-    end
-  end
+  index = computers_strategic_choice(choices, 'offense')
 
   unless index
     # choose middle square if it is empty before choosing random position
