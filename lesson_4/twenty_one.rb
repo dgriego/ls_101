@@ -56,14 +56,13 @@ end
 
 # Start Game
 
-puts 'Welcome to Twenty One!'
-puts 'Are you ready to begin?(y/n)'
-play = gets.chomp
-players_name = prompt_for_name
-puts
+players_name = nil
 
-while play == 'y'
+loop do
   system('clear')
+  puts 'Welcome to Twenty One!'
+  players_name = prompt_for_name if players_name.nil?
+  puts
 
   # Deal Cards
   deck = initialize_deck
@@ -176,5 +175,5 @@ while play == 'y'
   end
 
   puts "#{players_name}, Would you like to play again?(y/n)"
-  play = gets.chomp
+  break if gets.chomp.downcase.start_with?('n')
 end
