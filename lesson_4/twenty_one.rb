@@ -26,23 +26,23 @@ def display_hand(hand, player, start_of_game = false)
     puts "=> #{hand[0][0]} of #{hand[0][1]}"
     puts '=> Unknown Card'
   else
-    hand.each do |e|
-      puts "=> #{e[0]} of #{e[1]}"
+    hand.each do |card|
+      puts "=> #{card[0]} of #{card[1]}"
     end
   end
 end
 
 def calculate_total(hand) # [["D", "A"], ["S", "Q"]]
-  card_values = hand.flatten.map do |e|
-    e = '10' if e =~ /[JQK]/
-    e = '11' if e =~ /A/
-    e.to_i
+  card_values = hand.flatten.map do |card|
+    card = '10' if card =~ /[JQK]/
+    card = '11' if card =~ /A/
+    card.to_i
   end # [11, 10, 3]
 
   total = card_values.inject(:+)
 
   # Correct for aces
-  hand.flatten.count { |e| e == 'A' }.times do
+  hand.flatten.count { |card| card == 'A' }.times do
     total -= 10 if total > TWENTY_ONE
   end
 
