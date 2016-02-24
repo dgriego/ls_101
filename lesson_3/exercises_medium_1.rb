@@ -85,7 +85,7 @@ puts "result is #{result}"
 # Write your own version of the rails titleize implementation.
 puts "Question 8".center(30, '-')
 def titleize(phrase)
-  phrase.split.each do |word|
+  phrase.split.map do |word|
     word.capitalize!
   end.join(" ")
 end
