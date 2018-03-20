@@ -1,0 +1,15 @@
+what is Regex?
+
+Regex stand for regular expression.  A regular expression is a sequence of
+characters that form pattern matching rules, and is then applied to a string
+to look for matches.
+
+example use cases:
+Check if the pattern "ss" appears in the string "Mississippi".
+Print out the 3rd word of each sentence from a list of sentences.
+Find and replace all instances of "Mrs" with "Ms" in a sentence.
+Does a string start with "St"?
+Does a string end with "art"?
+Does a string have non-alphanumeric characters in it?
+Are there any whitespace characters in the string?
+Find and replace all non-alphanumeric characters in a string with "-".

@@ -1,0 +1,11 @@
+Why do we need methods?
+
+methods allow you to extract common code into one place
+so that this common code can be executed by its 'name' rather
+then reusing the same block of code in ever place it is needed.
+
+Loops
+-----
+standard loops create their own scope due to the fact that loop
+is a method on the Enumerator class and scope is initialized by
+blocks in ruby

@@ -1,0 +1,52 @@
+CSV and XLS/XLSX
+----------------
+these two formats are typically used for iporting and exporting tabular data
+commonly found in spreadsheet applications.
+
+for CSV, the Ruby Standard-lib does support csv files withe CSV class
+for XLS/XLSX, Ruby does not have any built in support, but luckily we can utilize the
+              `axlsx` gem
+
+JSON and XML/HTML
+-----------------
+JSON - JavaScript Object Notation
+XML - Extensible Markup Language
+HTML - Hyper Text Markup Language (a standarized form of XML for describing elements on the web page)
+
+for parsing XML/HTML files we can use the gem `Nokogiri`
+
+JSON example:
+{
+  "newspaper_name": "Cooking Today",
+  "issue_date": "November 15th, 2014",
+  "articles": [
+    {
+      "title": "Bacon Cooking",
+      "link": "http://baconcooklove.com",
+      "summary": "Just a few thousand ideas about bacon"
+    },
+    {
+      "title": "Cooking with leftovers",
+      "link": "http://love.com",
+      "summary": "Just a few thousand ideas about tasting love twice"
+    }
+  ]
+}
+
+XML equivalent:
+<newspaper>
+  <name>Cooking Today</name>
+  <issue_date>November 15th, 2014</issue_date>
+  <articles>
+    <article>
+      <title>Bacon Cooking</title>
+      <link>http://baconcooklove.com</link>
+      <summary>Just a few thousand ideas about bacon</summary>
+    </article>
+    <article>
+      <title>Cooking with leftovers</title>
+      <link>http://love.com</link>
+      <summary>Just a few thousand ideas about tasting love twice</summary>
+    </article>
+  </articles>
+</newspaper>

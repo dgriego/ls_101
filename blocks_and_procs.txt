@@ -1,0 +1,29 @@
+you can pass in blocks similar to the way you can pass in parameters to methods
+
+ampersands in front of a parameter name, tells us that this is a block
+
+The block must always be the last parameter in the method definition.
+
+def take_block(&block)
+  block.call
+end
+
+take_block do
+  puts "Block being called in the method!"
+end
+
+block.call will evaluate the expressions inside the block
+and return the supplied value of the last expression in the block,
+in this case nil (since puts returns nil)
+
+Procs are blocks that are wrapped in a proc object
+talk = Proc.new do
+  puts "I am talking."
+end
+
+talk.call
+
+calling rescue allows us to log an error without the program coming to a halt
+
+inline version of rescue
+zero.each { |element| puts element } rescue puts "Can't do that!"

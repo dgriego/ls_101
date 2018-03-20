@@ -1,0 +1,35 @@
+talking about what the = operator does in regards to ruby and memory
+
+when we initialize a variable, this is essentially creating an address
+to a physical space in memory.  The String object is what is occupying
+that space in memory.
+test = 'stringObject'
+
+if we create another variable and assign the String object that the test variable is pointing to we are then creating another variable that points
+to the same address in memory, we are not creating a new value but instead creating a 'pointer' to that space in memory. (references)
+secondPointer = test
+
+with that said, if we reassign test with a different value:
+test = 10
+
+will this affect the secondPointer variable? no
+this would be considered reassignment and underneath a new Object, in this case an Integer Object, is now occupying a new space in memory with the test variable pointing to that space
+
+now test and secondPointer are pointing to two different spaces in memory
+
+to experiment with this you can test by using destructive methods on an Object in correlation with two variables pointing to the same Object in memory, like so:
+test = 'string Object'
+secondPointer = test
+test << ' suh dude'
+
+because both variables are pointing to the same Object and the Object is being mutated, then both pointers, logically, will now reference the newly updated Objects value.
+
+The result being:
+puts test # prints 'string Object suh dude'
+puts secondPointer # prints 'string Object suh dude'
+
+# `<<` mutated the caller
+
+some operations will mutate the actual address space in memory.
+
+Some operations will not mutate the address space in memory, and instead will re-point the variable to a new address space in memory.
