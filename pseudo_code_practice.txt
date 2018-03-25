@@ -1,0 +1,47 @@
+1. a method that returns the sum of two integers.
+
+START
+
+GET integer_one
+GET integer_two
+
+PRINT integer_one + integer_two
+
+END
+
+
+2. a method that takes an array of strings, and returns a string that is
+   all those concatenated together.
+
+START
+
+# given an array of strings called "strings"
+
+SET iterator = 0
+SET new_string = ''
+
+WHILE iterator < length of strings
+  new_string = new_string + strings[iterator]
+
+  iterator = iterator + 1
+END
+
+END
+
+3. a method that takes an array of integers, and returns a new array
+   with every other element
+
+START
+
+# given an array integers called "numbers"
+
+SET iterator = 0
+SET new_array = []
+
+WHILE iterator < length of numbers
+  IF iterator % 2 === 0
+    new_array << number
+END
+
+RETURN new_array
+

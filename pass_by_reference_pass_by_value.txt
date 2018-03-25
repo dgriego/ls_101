@@ -1,0 +1,86 @@
+Is Ruby pass by reference or pass by value?
+-------------------------------------------
+
+it seems that the Ruby community says different things in regards to this and
+thats because the behaviour Ruby exhibits when dealing with variables in regards
+to method invocation and how variable scope works in Ruby.
+
+The simplest example is that a Ruby variable, when initialized
+->
+  name = 'Bob'
+
+the name variable is assigned the String Object 'Bob' which is stored in
+physical memory
+
+if we create another variable and assign it the String Object name is referencing
+->
+  sameObj = name
+
+name and sameObj are now pointing to the same String Object in memory
+
+<DEEP>
+  -> The same number will be returned on all calls to object_id
+     for a given object, and no two active objects will share an id.
+
+  -> some objects of builtin classes are reused for optimization.
+     This is the case for immediate values and frozen string literals.
+
+  -> Immediate values are not passed by reference but
+     are passed by value: nil, true, false, Fixnums, Symbols, and some Floats.
+
+Immediate values in Ruby ->
+  nil  true  false  Fixnums  Symbols | and  some  Floats
+<END OF DEEP>
+
+<Mutating and Non-Mutating Methods>
+String#sub! is mutating with respect to the String receiver object, but
+non-mutating with respect
+
+Assignment always binds the target variable
+on the left hand side of the = to the object referenced by the right hand side
+
+target_variable = Object.new
+
+*
+ Setter methods for class instance variables and indexed assignment are not the same as assignment. We’ll return to this below, but for now, remember that setter methods and indexed assignment usually mutate their receiver.
+*
+
+A method is said to be mutating with respect to an argument
+or receiver if it modifies the argument or receiver.
+
+- Indexed Assignment is Mutating
+- Concatenation is Mutating
+- Setters are Mutating
+
+SUMMARY
+-------
+We now have a good grip on how ruby uses variables to reference objects, what the terms mutability and immutability mean, and what it means for a method to be mutating or non-mutating. We’ve also been briefly introduced to the concept of object passing, and have established an initial mental model that states that ruby appears to use pass by value for immutable objects, and pass by reference for mutable objects. We’ve also established that assignment does not mutate objects but instead binds variables to new objects, while setter methods and indexed assignment do mutate objects.
+
+
+<What is Object passing?>
+the receiver of a method call is the object on which the method is called
+ - can be referred to as an implied argument
+
+every language uses some sort of evaluation strategy when passing objects.
+one type of evaluation strategy is 'strict evaluation'
+
+in strict evaluation every expression is evaluated and converted to an object
+before it is passed along to a method
+
+Ruby uses strict evaluation
+
+two twypes of strict evaluation or pass by reference and pass by value (object passing strategies)
+
+recall -> ruby's variables don't contain objects; they are merely references to objects
+
+essentially Ruby is not necessariy pass by reference or pass by value, but is a
+blend of both
+
+Ruby passes copies of the references of the objects, you can test this by
+passing 'immutable' values into a method and checking the objects id.
+
+- pass by reference value
+- pass by reference is accurate as long as you taken into account assignment and
+  immutability
+
+Ruby passes the object_id of each item rather than the value of the parameter

@@ -1,0 +1,11 @@
+In this assignment we want to delve into those topics at a deeper level.
+Our goal here is to accomplish two things:
+
+- Build on the definitions outlined in the previous assignment
+- Provide a slightly more complex but more accurate mental model of methods,
+  blocks, how they inter-relate, and how local variable scope fits into the picture
+
+Method definition is when we define a method in Ruby using the `def` keyword
+
+Method invocation is when we call a method whether that be methods you created
+or methods from the Core API or Standard Library.

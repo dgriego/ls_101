@@ -1,0 +1,4 @@
+Your goal should be to build small methods that are like LEGO blocks: they should be stand-alone pieces of functionality that you can use to piece together larger structures. You don't want these methods to be mentally taxing to use. Interesting structures are comprised of many hundreds or thousands of atomic lego pieces. Likewise, large programs are comprised of hundreds or thousands of small methods (later, we'll talk about organizing methods into classes and objects).
+
+
+- Don't prematurely exit the program. All your methods should be at the same mental scope and not just randomly exit the program. Your program should probably only have one exit point.

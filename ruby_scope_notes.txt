@@ -1,0 +1,122 @@
+<Ruby Scope>
+----------
+The two major areas where we encounter local variable scoping rules are related
+to method definition and method invocation with a block.
+
+- method definition
+- method invocation with a block
+
+->
+  do..end or {..}
+
+examples ->
+  [1, 2, 3].each do |num|
+    puts num
+  end
+
+  the block is following the method invocation
+  do |num|
+    puts num
+  end
+
+  you can also write a block with {..}
+  [1, 2, 3].each { |num| puts num }
+
+A variables scope is determined by where it is initialized
+
+Variables initialized in an outer scope can be accessed in an inner scope,
+but not vice versa.
+
+Another more in depth example of how variable scope is initialized
+
+->
+  a = 1        # outer scope variable
+
+  loop do      # the block following the invocation of the `loop` method creates an inner scope
+    puts a     # => 1
+    a = a + 1  # "a" is re-assigned to a new value
+    break      # necessary to prevent infinite loop
+  end
+
+  puts a       # => 2  "a" was re-assigned in the inner scope
+
+
+<Variable shadowing>
+------------------
+Variable shadowing prevents outer scope variables from being affected by an
+inner scope variable with the same name
+
+example ->
+  n = ''
+
+  [1, 2, 3] do |n| # local variable n overrides outer scope n
+    puts n
+  end
+
+  puts n # will print ''
+
+
+<Variables and Method Definitions>
+--------------------------------
+The only variables that a method has access to have to be explicitly passed into
+the method as arguments.
+
+variable scope in method definitions have entirely self contained scope, this is
+different than invoking a method and defining a block on that method call, where
+the block defined creates an 'inner scope' and follows the normal block scope rules.
+This means it has access to outer scope whereas a method definition does not.
+
+<Constants>
+---------
+Constants behave differently than local scope variables as they can be accessed
+from within method definitions, ie scope from within a method definition can access
+constants that are defined in outer scope
+
+example ->
+  MY_CONSTANT = 'HELLO'
+
+  def say
+    puts MY_CONSTANT
+  end
+
+
+<A NOTE ABOUT BLOCKS and METHODS>
+-------------------------------
+technically any method in Ruby can be called with a block, but the block is
+only executed if the method is defined in a particular way.
+
+A block is defined by {..} or do..end following a method invocation
+
+essentially, a block acts as an argument to the method it is being defined on
+
+<terminology tip>
+  when talking about a block and its use with a method it is best to say it like so
+
+  'a method is invoked with a block'
+  or
+  'when the block is executed'
+
+Method definitions cannot directly access local variables initialized outside of
+the method definition, nor can local variables initialized outside of the method
+definition be reassigned from within it
+
+- we can think of METHOD DEFINITION as setting a certain scope for any local
+  variables in terms of the parameters that the method definition has,
+  what it does with those parameters,
+  and also how it interacts (if at all) with a block
+
+- We can then think of METHOD INVOCATION as using the scope set by the method
+  definition. If the method is defined to use a block, then the scope of the
+  block can provide additional flexibility in terms of how the method invocation
+  interacts with its surroundings.
+
+
+<SUMMARY>
+- The def..end construction in Ruby is method definition
+- Referencing a method name, either of an existing method or subsequent
+  to definition, is method - invocation
+- Method invocation followed by {..} or do..end defines a block;
+  the block is part of the method - invocation
+- Method definition sets a scope for local variables in terms of
+  parameters and interaction with - blocks
+- Method invocation uses the scope set by the method definition
