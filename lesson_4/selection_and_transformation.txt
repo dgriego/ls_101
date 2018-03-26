@@ -1,0 +1,126 @@
+selection is, essentially, picking certain elements out of a collection
+dependent on some criteria.  For example, pick out all of the odd integers from
+an arry or pick all of the key value pairs from a hash where the value is the
+String 'George'.
+
+Transformation is manipulating each element in a collection.  Transformation and
+Selection are similar in the fact that the loop will iterate through each element,
+but the results are different as such that a selection will return n or less
+elements depending on if the criteria passes per element, where as a transformation
+will always return exactly n elements.
+
+fruits = ['apple', 'banana', 'pear']
+transformed_elements = []
+counter = 0
+
+loop do
+  current_element = fruits[counter]
+
+  transformed_elements << current_element + 's'   # appends transformed string into array
+
+  counter += 1
+  break if counter == fruits.size
+end
+
+transformed_elements # => ["apples", "bananas", "pears"]
+
+
+an example of selecting all the vowels from a given string
+
+->
+  def select_vowels(str)
+    selected_chars = ''
+    counter = 0
+
+    loop do
+      current_char = str[counter]
+
+      if 'aeiouAEIOU'.include?(current_char)
+        selected_chars << current_char
+      end
+
+      counter += 1
+      break if counter == str.size
+    end
+
+    selected_chars
+  end
+
+How would we select the key-value pairs where the value is 'Fruit'
+
+->
+  produce = {
+    'apple' => 'Fruit',
+    'carrot' => 'Vegetable',
+    'pear' => 'Fruit',
+    'broccoli' => 'Vegetable'
+  }
+
+  select_fruit(produce) # => {"apple"=>"Fruit", "pear"=>"Fruit"}
+
+  def select_fruit(produce)
+    selected_fruit = {}
+    fruit = produce.keys
+    count = 0
+
+    loop do
+      # this has to be at the top in case the Hash is empty
+      break if count == produce.size
+
+      current_fruit = fruit[count]
+
+      if produce[current_fruit] == 'Fruit'
+        selected_fruit[current_fruit] = produce[current_fruit]
+      end
+
+      count += 1
+    end
+
+    selected_fruit
+  end
+
+
+->
+  my_numbers = [1, 4, 3, 7, 2, 6]
+
+  double_odd_indices(numbers)
+    doubled_numbers = []
+    counter = 0
+
+    loop do
+      break if count == numbers.size
+
+      current_number = numbers[count]
+      current_number *= 2 if count.odd?
+      doubled_numbers << current_number
+
+      counter += 1
+    end
+
+    doubled_numbers
+  end
+
+Try coding a method that allows you to multiply
+every array item by a specified value:
+->
+  my_numbers = [1, 4, 3, 7, 2, 6]
+
+  def multiply(numbers, multiplier)
+    multiplied_numbers = []
+    count = 0
+
+    loop do
+      break if count == numbers.size
+
+      multiplied_number = numbers[count] * multiplier
+      multiplied_numbers << multiplied_number
+
+      count += 1
+    end
+
+    multiplied_numbers
+  end
+
+  multiply(my_numbers, 3) # => [3, 12, 9, 21, 6, 18]
+
+Iteration, Selection, Transformation

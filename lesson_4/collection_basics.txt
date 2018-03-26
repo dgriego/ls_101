@@ -1,0 +1,143 @@
+# Collections
+
+Strings
+-------
+Strings use an integer-based index that represents each character in the string.
+The index starts counting at zero and increments by one for the remaining index
+values. Examples of referencing indeces of strings:
+
+->
+  str = 'abcdefghijk'
+  str[2] # => 'c'
+
+you can also access multiple characters or a 'range' of characters
+
+->
+  str[2, 3] # => 'cde'
+
+* the above example is actually a call to the #slice method and is alternative
+  syntax for str.slic(2, 3).  This is an example of syntactical sugar
+
+Arrays
+------
+Like strings, arrays are also ordered, zero-indexed collections
+
+Hashes
+------
+Hashes, instead of using an integer-based index, uses key-value pairs, where the
+key or the value can be any type of Ruby object.  This allows for a more expansive
+and descriptive collection of elements.
+
+->
+ key: value
+ key: value
+ key: value
+
+ hsh = { 'fruit' => 'apple', 'vegetable' => 'carrot' }
+
+ hsh['fruit']    # 'apple'
+ hsh['fruit'][0] # 'a'
+
+ When initializing a hash, the keys must be unique, if not then Ruby will
+ throw an 'warning' similar to this:
+
+ ->
+   hsh = { 'fruit' => 'apple', 'vegetable' => 'carrot', 'fruit' => 'pear' }
+   (irb):12: warning: key "fruit" is duplicated and overwritten on line 12
+
+you can access the keys and values of a has easily with #keys and #values, both
+of these methods return Array objects
+
+->
+  country_capitals = { uk: 'London', france: 'Paris', germany: 'Berlin' }
+  country_capitals.keys      # => [:uk, :france, :germany]
+  country_capitals.values    # => ["London", "Paris", "Berlin"]
+  country_capitals.values[0] # => "London"
+
+
+# Element Reference Gotchas
+
+Out of Bounds Indices
+---------------------
+we have two variables, one referencing a String Object and one an Array Object
+->
+  str = 'abcde'
+  arr = ['a', 'b', 'c', 'd', 'e']
+
+when trying to reference an out-of-bounds index in both cases Ruby will return
+nil.  For Strings this is a valid return value since we know nil is a 'falsy' value,
+but for Arrays this isn't necessarily the case.
+
+->
+  arr[12] # nil
+
+we see that accessing an out-of-bounds index on an Array also returns nil, but
+there are cases when nil could be one of the values in an Array
+
+->
+  arr = [1, 2, nil]
+  arr[2] # nil
+  arr[5] # nil
+
+This could be the source of confusing bugs and one way to avoid this is to use
+Array#fetch
+* Tries to return the element at position index,
+  but throws an IndexError exception if the referenced index lies outside of the array bounds.
+
+this is great, knowing that this method will throw an Exception instead of relying
+on nil, we can properly handle out-of-bounds referencing on Arrays
+
+->
+  arr.fetch(2) # => nil
+  arr.fetch(3) # => IndexError: index 3 outside of array bounds: -3...3
+               #        from (irb):3:in `fetch'
+               #        from (irb):3
+               #        from /usr/bin/irb:11:in `<main>'
+
+
+
+Elements in String and Array objects can be referenced using negative indices,
+starting from the last index in the collection -1 and working backwards.
+
+->
+  'abc'
+  -3,-2,-1
+
+Invalid Hash Keys
+-----------------
+Hash also has a #fetch method which can be useful when trying
+to disambiguate valid hash keys with a nil value from invalid hash keys.
+
+* fetch checks for valid key values in the hash
+
+->
+  hsh = { :a => 1, 'b' => 'two', :c => nil }
+
+  hsh['b']       # => "two"
+  hsh[:c]        # => nil
+  hsh['c']       # => nil
+  hsh[:d]        # => nil
+
+  hsh.fetch(:c)  # => nil
+  hsh.fetch('c') # => KeyError: key not found: "c"
+                 #        from (irb):2:in `fetch'
+                 #        from (irb):2
+                 #        from /usr/bin/irb:11:in `<main>'
+  hsh.fetch(:d)  # => KeyError: key not found: :d
+                 #        from (irb):3:in `fetch'
+                 #        from (irb):3
+                 #        from /usr/bin/irb:11:in `<main>'
+
+Conversion
+----------
+Because Arrays and Strings are both zero-indexed collections, they can be easily
+converted from on to the other.
+
+for Strings the String#chars method and Arrays the Array#join method.
+
+String#chars returns an array of individual characters
+
+->
+  str = 'Practice'
+
+  arr = str.chars # => ["P", "r", "a", "c", "t", "i", "c", "e"]

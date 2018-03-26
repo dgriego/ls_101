@@ -1,0 +1,132 @@
+Enumerable#any?
+---------------
+will evaluate the block and return a Boolean, true if the block ever returns
+a value other than false or nil, false otherwise
+
+->
+  [1, 2, 3].any? # will add an implicit block as such { |obj| obj }
+  [].any?
+
+  [1, 2, 3].any? do |num|
+    num > 2
+  end
+
+  { a: 'ant', b: 'bear', c: 'cat' }.any? do |key, value|
+    value.size > 4
+  end
+
+  %w[ant bear cat].any?(/d/)
+
+Enumerable#each_with_index
+--------------------------
+nearly identical to #each in every way except that #each_with_index takes a
+second argument which represents the index of each element in the collection.
+Returns the original calling collection
+
+->
+  [1, 2, 3].each_with_index do |num, index|
+    puts "The index of #{num} is #{index}."
+  end
+
+  # The index of 1 is 0.
+  # The index of 2 is 1.
+  # The index of 3 is 2.
+  # => [1, 2, 3]
+
+->
+  { a: "ant", b: "bear", c: "cat" }.each_with_index do |pair, index|
+    puts "The index of #{pair} is #{index}."
+  end
+
+  # The index of [:a, "ant"] is 0.
+  # The index of [:b, "bear"] is 1.
+  # The index of [:c, "cat"] is 2.
+  # => { :a => "ant", :b => "bear", :c => "cat" }
+
+Enumerable#each_with_object
+---------------------------
+Besides taking a block like the methods above, each_with_object takes a method argument. The method argument is a collection object that will be returned by the method.
+Will alway
+->
+  [1, 2, 3].each_with_object([]) do |num, array|
+    array << num if num.odd?
+  end
+
+->
+  { a: "ant", b: "bear", c: "cat" }.each_with_object([]) do |pair, array|
+    array << pair.last
+  end
+
+->
+  { a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
+    hash[value] = key
+  end
+
+Enumerable#first
+----------------
+->
+  [1, 2, 3].first
+  # => 1
+
+When an argument is provided, first will return the specified number of elements.
+->
+  { a: "ant", b: "bear", c: "cat" }.first(2)
+  # => [[:a, "ant"], [:b, "bear"]]
+
+Enumerable#include?
+-------------------
+include? doesn't take a block, but it does require one argument. It returns true if the argument exists in the collection and false if it doesn't.
+
+* In fact, Hash#include? is essentially an alias for Hash#key? or Hash#has_key?
+
+->
+  [1, 2, 3].include?(1)
+  # => true
+
+When called on a hash, include? only checks the keys, not the values.
+->
+  { a: "ant", b: "bear", c: "cat" }.include?("ant")
+  # => false
+
+  { a: "ant", b: "bear", c: "cat" }.include?(:a)
+  # => true
+
+If we wanted to find out if a value exists within a hash, we could use the Hash#value? or Hash#has_value? methods: hash.has_value?('cat')
+
+->
+  { a: "ant", b: "bear", c: "cat" }.value?('bear')
+  # => true
+
+  { a: "ant", b: "bear", c: "cat" }.has_value?('steve')
+  # => false
+
+Enumerable#partition
+--------------------
+Returns a nested array.  With the inner arrays separated based on the return
+value of the block.  Whatever elements are added when the block returns true,
+will be added at the zero index of the returned Array.
+
+partition divides up elements in the current collection into two collections,
+depending on the block's return value. For example:
+
+->
+  [1, 2, 3].partition do |num|
+    num.odd?
+  end
+  # => [[1, 3], [2]]
+
+->
+  odd, even = [1, 2, 3].partition do |num|
+    num.odd?
+  end
+
+  odd  # => [1, 3]
+  even # => [2]
+
+Even if the collection is a hash, the return value of partition will always be an array.
+
+->
+  long, short = { a: "ant", b: "bear", c: "cat" }.partition do |key, value|
+    value.size > 3
+  end
+  # => [[[:b, "bear"]], [[:a, "ant"], [:c, "cat"]]]
