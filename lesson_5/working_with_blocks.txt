@@ -1,0 +1,123 @@
+Evaluating Code
+---------------
+
+ what specific pieces of information are we interested in keeping track of? When evaluating code like this, ask the following questions:
+
+ 1. What is the type of action being performed (method call, block, conditional, etc..)?
+ 2. What is the object that action is being performed on?
+ 3. What is the side-effect of that action (e.g. output or destructive action)?
+ 4. What is the return value of that action?
+ 5. Is the return value used by whatever instigated the action?
+
+ [[1, 2], [3, 4]].map do |arr|
+  puts arr.first
+  arr.first
+end
+
+the map method is being called by a nested Array Object.  There is a block being
+defined where each element of the calling Array Object, in this case Array Objects,
+are passed into the block and assigned to the local variable `arr`.  Within the
+block the first method is called on the Array object that arr is referencing and
+returning the value at index 0.  This value, in this case the value 1, will be
+used by the puts method.  The puts method will output a string representation
+of the integer and return nil and then the program will evaluate the next line where
+first is being called again in the Array Object arr is referencing and return
+the value at index 0.  This being the last line evaluated by the block, the block
+will return the Object at index 0.  The map method will return a new array
+containing the values returned by the block after each iteration.
+
+Line, Action, Object, Side Effect, Return Value, Is Return Value Used?
+1, method call (map), outer Array, none, new Array [1, 3], no
+1-4, block execution, Each sub-array, none, index 0 of each sub-array, yes - used by map for transformation
+2, method call (first), Each sub-array, none, value at index 0 of each sub-array, yes by the puts method
+2, method call (puts), value at index 0 of each sub-array, outputs string representation of values, nil, no
+3, method call (first), Each sub-array, none, value at index 0 of each sub-array, yes, used to determine return value of the block
+
+Example 4
+---------
+->
+  my_arr = [[18, 7], [3, 12]].each do |arr|
+    arr.each do |num|
+      if num > 5
+        puts num
+      end
+    end
+  end
+
+here the each method is being call on a nested Array object.  The block defined
+on the each invocation will yield each sub array in turn and assign it to the
+local variable `arr`.
+
+for each sub array within the block, as the block is executed, we have another
+each method being called on the sub array which is assigned to the `arr` variable.
+The block defined on this each method call will yield the Integer Objects in
+turn and assign the them to the local `num` variable.
+
+for each Integer Object passed into the block we have an if conditional statement
+that is evaluating the return value of the greater than method #> that is being
+called on the Integer Object passed into the block, where the Integer Object (num is referencing)is the calling Object and 5 is the argument passed into the #> method.  if the
+Integer Object num is referencing is greater than 5 then it will return true.  This
+will execute the code within the if statement.  If the conditional passes the puts
+method will be called with num as an argument, this will output the string representation
+of the Object and return nil.  If the conditional on the if is false then the puts
+will not being executed and will still return nil, resulting in the block returning
+nil on each turn.  Because the each method is being called the original arr object
+will be return.
+
+the each on line 2 will return the calling Array Object.  Finally when the outer
+each method is done evaluating it will return the original nested Array Object.
+We then assign this nested Array to the variable `my_arr`
+
+Example 5
+---------
+->
+  [[1, 2], [3, 4]].map do |arr|
+    arr.map do |num|
+      num * 2
+    end
+  end
+
+Here the map method is being called on an Array Object.  We define a block on
+this method call where the Elements of the Array Object, Sub Arrays, are being
+assigned to the local variable arr in turn.  Another map method is being called
+on the sub array in current iteration, where an inner block is defined on this
+inner map call.  In this inner block each element of the sub arrays, in this case,
+Integer Objects are being assigned to the variable num in turn.
+
+the multiplication method (#*) is being called by the Integer Object in current
+iteration, the Integer Object 2 is being passed as an argument to the muliplication
+method, which will return the multiplied result of the Integer Object in current
+iteration and 2.  Because this is the last line evaluated by the inner block it is the
+return of the block and will be used by the map method to create a new Array containing
+the multiplied values.
+
+The new Array that is returned will then be used by the outer block as its return
+value and use the new arrays to create a new nested Array which will be returned by
+the outer map method call.
+
+
+Example 6
+---------
+->
+  [{ a: 'ant', b: 'elephant' }, { c: 'cat' }].select do |hash|
+    hash.all? do |key, value|
+      value[0] == key.to_s
+    end
+  end
+  # => [{ :c => "cat" }]
+
+- the select method is being called on an Array Object containing two Hash Objects.
+  The return value will be a new Array Object containing original elements of the
+  calling Array object where the block returned true.
+- A block is defined on the select method invocation where each Hash will be passed
+  into the block and assigned to the local variable hash in turn.  the return
+  value of this block will determine what Hash Objects, in current iteration, will
+  be added to the new array returned by the select method
+- #all? method is being called for each Hash Object in current iteration, the Hash
+  key and value will passed into the block in turn and assigned to the local variables
+  key and avlue, its return value will be a Boolean and will be used by the outer block to determine what values are inserted into the new Array
+- method call to_s on the symbol that is assigned to the key variable
+- method call [] on the String object which is referencing the char at index 0 of the String
+- comparison on those values to check for equality
+- will return a Boolean and will be used by the block to determine what the block
+  will return

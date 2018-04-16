@@ -1,0 +1,72 @@
+sorting is typically performed on arrays because of the thier zero-based indexed
+nature.  Hashes typically don't need to be sorted because their values can be
+accessed by keys
+->
+  [2, 5, 3, 4, 1].sort # => [1, 2, 3, 4 ,5]
+
+Sorting is essentially carried out by comparing the items in a collection
+with each other, and ordering them based on the result of that comparison.
+
+*Comparison is at the heart of how sorting works.
+
+sorting Integers is fairly simple as we can compare numerical values and judge
+which number is lower or greater.  Characters on the other hand are more
+complicated.
+
+->
+  ['c', 'a', 'e', 'b', 'd'].sort # => ['a', 'b', 'c', 'd', 'e']
+
+introducing the spaceship operator <=>
+
+In Ruby this is a method <=>
+it is used to compare two objects of the same type and returns a -1, 0, or 1
+depending on whether the first object is less than, equal to, or greater than
+the second object.
+
+when attempting to sort a collection that contains particular types object
+(e.g. strings or integers) you need to know two things:
+
+1. Does that object type implement a <=> comparison method?
+2. If yes, what is the specific implementation of that method for that
+   object type (e.g. String#<=> will be implemented differently to Fixnum#<=>).
+
+String order is determined by its position in the ASCII table
+https://en.wikipedia.org/wiki/ASCII#Code_chart
+
+All uppercase letters come before lowercase letters per the ASCIIbetical order
+*
+ All uppercase come before lowercase letters; for example, "Z" precedes "a"
+ Digits and many punctuation marks come before letters
+
+->
+  'A' <=> 'a' # => -1
+
+'A' precedes 'a' in the ASCII table
+the ASCII code for 'A' is 65
+the ASCII code for 'a' is 97
+
+I figured out what the ASCII position by calling the #ord method on the string
+
+Uppercase letters come before lowercase letters
+Digits and (most) punctuation come before letters
+There is an extended ASCII table containing accented and other characters - this comes after the main ASCII table
+
+sort_by
+-------
+usually called with a block,  The code in the block determines how the items are
+compared.
+
+->
+  ['cot', 'bed', 'mat'].sort_by do |word|
+    word[1]
+  end
+
+other sort methods
+->
+  min
+  max
+  minmax
+  min_by
+  max_by
+  minmax_by
+

@@ -1,0 +1,40 @@
+dup and clone perform shallow copies of the object, meaning that they will
+only copy the object being called on and won't take into account nested objects.
+This specifically relates to Arrays and Hashes or any other objects that can 'hold'
+other objects.
+
+#dup and #clone
+
+Freezing Objects
+----------------
+The main difference between dup and clone is that clone preserves the frozen
+state of the object
+
+->
+  arr1 = ['a', 'b', 'c'].freeze
+  arr2 = arr1.clone
+  arr2 << 'd'
+
+dup doesn't preserve the frozen state of the object.
+->
+  arr1 = ["a", "b", "c"].freeze
+  arr2 = arr1.dup
+  arr2 << "d"
+
+  arr2 # => ["a", "b", "c", "d"]
+  arr1 # => ["a", "b", "c"]
+
+freezing in Ruby prevents objects from being modified Object#freeze
+* only mutable objects can be frozen, like integers, are already frozen
+
+check if an object is frozen using the Object#frozen? method
+
+Something to note about freezing is that freezing only freezes the Object
+it is called on.  If you call freeze on an Array it will freeze the Array Object,
+but none of the Objects inside the Array
+
+->
+  arr = [[1], [2], [3]].freeze
+  arr[2] << 4
+  arr # => [[1], [2], [3, 4]]
+

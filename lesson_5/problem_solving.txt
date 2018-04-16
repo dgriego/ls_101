@@ -1,0 +1,8 @@
+Understanding the problem
+-------------------------
+- requirements are explicit
+  - take notes
+  - the odd words problem
+- requirements are not so explicit and need to be modeled
+  - requirements are shown with examples
+  -

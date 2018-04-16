@@ -1,0 +1,54 @@
+# Question 2
+[a, b, c, d]
+
+a <=> b # -1
+c <=> b # 0
+d <=> c # 1
+
+[b, a, c, d]
+
+[b, c, d, a]
+
+b = 5
+c = 5
+d = 6
+a = 4
+
+[4, 5, 5, 6]
+ a, b, c, d
+
+a is less than b
+c is equal to b
+d is greater than c
+d is greater than b
+
+# Question 3
+order_data = [
+  {customer_id: 12, customer_name: 'Emma Lopez', order_id: 351, order_date: '12/04/16', order_fulfilled: true, order_value: 135.99},
+  {customer_id: 12, customer_name: 'Emma Lopez', order_id: 383, order_date: '12/04/16', order_fulfilled: true, order_value: 289.49},
+  {customer_id: 12, customer_name: 'Emma Lopez', order_id: 392, order_date: '01/10/17', order_fulfilled: false, order_value: 58.00},
+  {customer_id: 32, customer_name: 'Michael Richards', order_id: 241, order_date: '11/10/16', order_fulfilled: true, order_value: 120.00},
+  {customer_id: 32, customer_name: 'Michael Richards', order_id: 395, order_date: '01/10/17', order_fulfilled: false, order_value: 85.65},
+  # rest of data...
+]
+
+customer_orders = [
+  {
+    customer_id: 12,
+    customer_name: 'Emma Lopez',
+    orders: [
+      { order_fulfilled: true, order_value: 135.99 },
+      { order_fulfilled: true, order_value: 289.49 },
+      { order_fulfilled: false, order_value: 58.00 }
+    ]
+  },
+  {
+    customer_id: 32,
+    customer_name: 'Michael Richards',
+    orders: [
+      { order_fulfilled: true, order_value: 120.00 },
+      { order_fulfilled: false, order_value: 85.65 }
+    ]
+  },
+  # rest of data...
+]

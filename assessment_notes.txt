@@ -1,0 +1,7 @@
+- Explain your reasoning with reference to specific lines in the program. You can use line numbers to refer to specific lines of code where necessary.
+
+- Answer with extreme precision. For example, say "method definition" or "method invocation" as opposed to just "method" (see the section on 'Precision of Language' below for more on this).
+
+- Highlight any specific syntactical conventions or technical observations where relevant.
+
+- Identify the key fundamental concept or concepts being demonstrated in the question.
