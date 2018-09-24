@@ -9,7 +9,7 @@
 #     it will return a KeyError or return the Object
 #     that was passed as the second argument
 # {}.to_a
-#.  - the to_a instanc method will convert the Hash into an array of arrays
+#.  - the to_a instance method will convert the Hash into an array of arrays
 #.    with the arrays being the key value and the value the key is storing
 # {}.select
 #.  - will iterate through each element in the Hash and will return a new

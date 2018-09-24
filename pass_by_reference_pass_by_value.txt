@@ -69,18 +69,18 @@ before it is passed along to a method
 
 Ruby uses strict evaluation
 
-two twypes of strict evaluation or pass by reference and pass by value (object passing strategies)
+two types of strict evaluation are pass by reference and pass by value (object passing strategies)
 
 recall -> ruby's variables don't contain objects; they are merely references to objects
 
-essentially Ruby is not necessariy pass by reference or pass by value, but is a
+essentially Ruby is not necessarily pass by reference or pass by value, but is a
 blend of both
 
 Ruby passes copies of the references of the objects, you can test this by
 passing 'immutable' values into a method and checking the objects id.
 
 - pass by reference value
-- pass by reference is accurate as long as you taken into account assignment and
+- pass by reference is accurate as long as you take into account assignment and
   immutability
 
 Ruby passes the object_id of each item rather than the value of the parameter
